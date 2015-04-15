@@ -1,0 +1,63 @@
+require 'Date'
+require './lib/key'
+require './lib/date_offset'
+
+
+class Encrypt
+  attr_reader :character_map, :message_file, :encrypted_file, :offsets
+  attr_reader :encryption_key, :sliced, :date_offset
+
+  def initialize(message_file, encrypted_file='encrypted.txt')
+    @character_map = 'abcdefghijklmnopqrstuvwxyz0123456789 .,'.split('')
+    #p @char_map = [*('a'..'z'), *('0'..'9'), ' ', '.', ',']
+
+    @message_file = message_file || 'message.txt'
+    @encrypted_file = encrypted_file || 'encrypted.txt'
+    @msg_text = File.read(@message_file).strip
+    @encryption_key = Key.generate
+
+    today = Date.today.strftime('%d%m%y')
+    @date_offset = DateOffset.generate(today)
+
+    @sliced = sliced_msg(@msg_text)
+  end
+
+  def msg_text
+    @msg_text
+  end
+
+  def date_offset
+    @date_offset
+  end
+
+  def offsets
+    {
+      A: @date_offset[0].to_i + @encryption_key[0..1].to_i,
+      B: @date_offset[1].to_i + @encryption_key[1..2].to_i,
+      C: @date_offset[2].to_i + @encryption_key[2..3].to_i,
+      D: @date_offset[3].to_i + @encryption_key[3..4].to_i
+    }
+  end
+
+  def sliced_msg(msg_text)
+    @msg_text.scan(/.{4}/)
+  end
+
+
+
+
+
+end
+
+msg = Encrypt.new(ARGV[0], ARGV[1])
+
+
+
+
+p msg.encryption_key
+p msg.date_offset
+
+#p msg.offsets
+p msg.sliced_msg(msg.msg_text)
+
+#@message_file = File.join(__dir__, message_file) || 'message.txt'

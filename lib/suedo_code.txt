@@ -43,3 +43,6 @@ There are also offsets for the DDMMYY
 
 need to remove all /n and any trailing whitespace
 
+Array.values_at to possibly return the result
+
+
