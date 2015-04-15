@@ -1,10 +1,12 @@
 require './lib/offset'
 require './lib/reader'
+require './lib/writer'
 require './lib/encryption_key'
 require './lib/message_date'
-require './lib/rotater'
+require './lib/rotator'
 
 class Encrypt
+
   attr_reader :message_file, :encrypted_file
 
   def initialize(message_file, encrypted_file)
@@ -36,6 +38,8 @@ message = Encrypt.new(ARGV[0], ARGV[1])
 p 'this is the message file name'
 p message_file = message.message_file
 puts
+p 'this is the encrypted file name'
+p encrypted_filename = message.encrypted_file
 
 p 'this is the key and key rotation'
 p key = EncryptionKey.generate_key
@@ -49,19 +53,19 @@ puts
 
 p 'this is the text in the message.txt file'
 p message_text = Reader.read_file(message_file)
+puts
 
-
-
+p 'total offset'
 total_offset = Offset.total_offset(MessageDate.calculate_offset(date), EncryptionKey.calculate_rotations)
 puts
-p 'total offset'
-p total_offset
 
 
+rotate = Rotator.new
+puts message_text = rotate.format_message(message_text)
+encrypted_text = rotate.rotate(message_text, total_offset)
 
-rotate = Rotater.new
-p rotate.rotate(message_text, total_offset)
 
+Writer.write_file(encrypted_text, encrypted_filename)
 
 
 

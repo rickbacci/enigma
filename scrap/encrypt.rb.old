@@ -90,7 +90,7 @@ p msg.sliced_msg(msg.msg_text)
 
 
 
-#####chars[chars.rotate(-2).index('h')]
+#####      chars[chars.rotate(-2).index('h')]
 
 
 
