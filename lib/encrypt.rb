@@ -1,83 +1,72 @@
-require 'Date'
-require './lib/key'
-require './lib/date_offset'
+require './lib/offset'
 require './lib/reader'
-
+require './lib/encryption_key'
+require './lib/message_date'
+require './lib/rotater'
 
 class Encrypt
-  attr_reader :message_file, :encrypted_file, :character_map
-  attr_reader :encryption_key, :date_offset, :msg_text
+  attr_reader :message_file, :encrypted_file
 
   def initialize(message_file, encrypted_file)
-
-    #@character_map = 'abcdefghijklmnopqrstuvwxyz0123456789 .,'.split('')
-    @character_map = [*('a'..'z'), *('0'..'9'), ' ', '.', ',']
-
-    @message_file = message_file || 'message.txt'
-    @encrypted_file = encrypted_file || 'encrypted.txt'
-
-    @msg_text = Reader.read_file(@message_file)
-
-    @encryption_key = Key.generate
-
-    today = Date.today.strftime('%d%m%y')
-    @date_offset = DateOffset.generate(today)
-
-    @total_offset = total_offset(@date_offset, @encryption_key)
-
+   @message_file = message_file || 'message.txt'
+   @encrypted_file = encrypted_file || 'encrypted.txt'
   end
 
-  def total_offset(date_offset, key)
-    date_offset.zip(key).map { |date, key| (date + key) % 39 }
-  end
 
-  def sliced_msg
-    @msg_text.scan(/.{4}/)
-  end
 
-  def rotate(total_offset)
-    sliced_msg.zip(total_offset)
+  def result
+    puts "Created #{@encrypted_file} with the key #{@encryption_key} and the date #{@date}"
   end
-
 
 
 end
 
-msg = Encrypt.new(ARGV[0], ARGV[1])
 
 
 
-puts "encryption key: #{msg.encryption_key}"
-puts "   date offset: #{msg.date_offset}"
-puts "  total offset: #{msg.total_offset(msg.encryption_key, msg.date_offset)}"
+# the encrypt class will receive an msg and call the date class to get the date string and offset.
+# the cncrypt class will generate a key with an offset.
+
+#Created 'encrypted.txt' with the key 82648 and date 030415
 
 
-@total_offset = msg.total_offset(msg.encryption_key, msg.date_offset)
+# Encryptor receives the names of 2 text files...first is the msg...2nd is the file to be written
+message = Encrypt.new(ARGV[0], ARGV[1])
 
-
-p msg.message_file
-p msg.encrypted_file
-puts
-p msg.msg_text
-
-sliced = msg.sliced_msg
-
-
-@character_map = [*('a'..'z'), *('0'..'9'), ' ', '.', ',']
-
-sl = sliced.map do |slice|
-      p slice.chars.map { |val| @character_map.index(val) }#.zip.(@total_offset)
-        #map { |val| @character_map.index(val) }.map { |v| p v }
-     end
+p 'this is the message file name'
+p message_file = message.message_file
 puts
 
-p 'sl zip total'
-p sl#.zip(@total_offset)
-p 'total zip sl'
-p @total_offset.zip(sl)
-#p msg.rotate(@total_offset)
+p 'this is the key and key rotation'
+p key = EncryptionKey.generate_key
+p key_rotations = EncryptionKey.calculate_rotations
+puts
+
+p 'this is the date and date offset'
+p date = MessageDate.generate_date
+p date_offset = MessageDate.calculate_offset(date)
+puts
+
+p 'this is the text in the message.txt file'
+p message_text = Reader.read_file(message_file)
 
 
-# sl = sliced.map do |slice|
-#   p slice.chars.map { |val| @character_map.index(val) }
-# end
+
+total_offset = Offset.total_offset(MessageDate.calculate_offset(date), EncryptionKey.calculate_rotations)
+puts
+p 'total offset'
+p total_offset
+
+
+
+rotate = Rotater.new
+p rotate.rotate(message_text, total_offset)
+
+
+
+
+
+
+
+
+

@@ -3,8 +3,7 @@
 class Reader
 
   def self.read_file(message_file)
-    File.read(message_file).strip
+    message_file || 'message.txt'
+    File.read(message_file)
   end
 end
-
-#p Reader.read_file('message.txt')
