@@ -27,15 +27,17 @@ require './lib/rotator'
 
       total_offset = Offset.total_offset(date_offset, key_rotations)
 
-      rotate = Rotator.new
 
-      encrypted_text = Reader.read_file(encrypted_filename)
-      encrypted_text = rotate.format_message(encrypted_text)
+      encrypted_text = get_file(encrypted_filename)
 
-      decrypted_text = rotate.rotate(:decrypt, encrypted_text, total_offset)
+      decrypted_text = Rotator.decrypt(encrypted_text, total_offset)
 
       Writer.check_file(decrypted_text, decrypted_filename)
 
+    end
+
+    def get_file(encrypted_filename)
+      Reader.read_file(encrypted_filename)
     end
 
     def result

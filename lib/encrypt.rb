@@ -14,25 +14,36 @@ class Encrypt
   def initialize(message_filename, encrypted_filename)
     @message_filename = message_filename || 'message.txt'
     @encrypted_filename = encrypted_filename || 'encrypted.txt'
+
+    @encryption_key = generate_key
+    @date = generate_date
   end
 
-  def convert
+  def encrypt
+    message_text   = get_file(message_filename)
 
-    @encryption_key = EncryptionKey.generate_key
-    @date = MessageDate.generate_date
+    key_rotations  = key_rotations(@encryption_key)
+    date_offset    = date_offset(@date)
 
-    message_text = Reader.read_file(message_filename)
+    total_offset   = total_offset(date_offset, key_rotations)
 
-    key_rotations = key_rotations(@encryption_key)
-    date_offset = date_offset(@date)
+    encrypted_text = encrypt_text(message_text, total_offset)
 
-    total_offset = Offset.total_offset(date_offset, key_rotations)
+    write_file(encrypted_text, encrypted_filename)
 
-    rotate = Rotator.new
+    result
+  end
 
-    encrypted_text = rotate.rotate(:encrypt, message_text, total_offset)
+  def generate_key
+    EncryptionKey.generate_key
+  end
 
-    Writer.check_file(encrypted_text, encrypted_filename)
+  def generate_date
+    MessageDate.generate_date
+  end
+
+  def get_file(message_filename)
+    Reader.read_file(message_filename)
   end
 
   def key_rotations(encryption_key)
@@ -43,19 +54,27 @@ class Encrypt
     MessageDate.calculate_offset(date)
   end
 
+  def encrypt_text(message_text, total_offset)
+    Rotator.encrypt(message_text, total_offset)
+  end
+
+  def total_offset(date_offset, key_rotations)
+    Offset.total_offset(date_offset, key_rotations)
+  end
+
+  def write_file(encrypted_text, encrypted_filename)
+    Writer.check_file(encrypted_text, encrypted_filename)
+  end
+
   def result
-    puts "Created #{@encrypted_filename} with the key #{@encryption_key} and the date #{@date}"
+    puts `clear && printf '\e[3J'` # clear terminal
+    puts "Created #{encrypted_filename} with the key #{@encryption_key} and the date #{@date}"
   end
 
 end
 
 message = Encrypt.new(ARGV[0], ARGV[1])
-
-message.convert
-message.result
-
-
-
+message.encrypt
 
 
 
