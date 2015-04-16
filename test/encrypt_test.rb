@@ -4,7 +4,7 @@ require './test/test_helper'
 class EncryptTest < MiniTest::Test
 
   def setup
-    @msg = Encrypt.new('test_msg.txt', 'encrypted.txt')
+    @msg = Encrypt.new('./test/encrypt/test_msg.txt', './test/encrypt/encrypted.txt')
   end
 
 

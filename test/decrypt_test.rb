@@ -5,7 +5,7 @@ require './test/test_helper'
 class DecryptTest < MiniTest::Test
 
   def setup
-    @msg = Decrypt.new('test_msg.txt', 'decrypted.txt', '11111', '150415')
+    @msg = Decrypt.new('./test/decrypt/test_msg.txt', './test/decrypt/decrypted.txt', '11111', '150415')
   end
 
   def test_can_create_dycrypt_class
