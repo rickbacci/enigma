@@ -36,7 +36,11 @@ class DecryptTest < MiniTest::Test
   end
 
   def test_full_decryption
-    full_decrypt = Decrypt.new('./test/test_encrypted.txt', './test/test_decrypted.txt', '02424', '160415')
+    full_encrypt = Encrypt.new('./test/test_message.txt', './test/test_encrypted.txt')
+    full_encrypt.encrypt
+    key = full_encrypt.encryption_key
+    date = full_encrypt.date
+    full_decrypt = Decrypt.new('./test/test_encrypted.txt', './test/test_decrypted.txt', key, date)
     full_decrypt.decrypt
     assert_equal "full msg decryption working", File.read('./test/test_decrypted.txt')
   end

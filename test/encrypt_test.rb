@@ -28,6 +28,6 @@ class EncryptTest < MiniTest::Test
     full_decrypt = Decrypt.new('./test/test_encrypted.txt', './test/test_decrypted.txt', key, date)
     full_decrypt.decrypt
 
-    assert_equal 'full msg encryption working', File.read('./test/test_message.txt')
+    assert_equal "full msg encryption working", File.read('./test/test_message.txt')
   end
 end
