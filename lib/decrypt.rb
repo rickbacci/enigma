@@ -43,7 +43,8 @@ require './lib/rotator'
     end
   end
 
-#msg = Decrypt.new(ARGV[0], ARGV[1], ARGV[2], ARGV[3])
-#msg.convert
-#msg.result
+msg = Decrypt.new(ARGV[0], ARGV[1], ARGV[2], ARGV[3])
+
+msg.convert
+msg.result
 
