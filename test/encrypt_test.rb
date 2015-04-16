@@ -1,7 +1,7 @@
 require './test/test_helper'
 
 
-class EncryptionTest < MiniTest::Test
+class EncryptTest < MiniTest::Test
 
   def setup
     message_file = 'test_msg.txt'
