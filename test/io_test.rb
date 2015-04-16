@@ -2,11 +2,12 @@ require "minitest"
 require "minitest/autorun"
 require './lib/encrypt'
 
-class EncryptionTest < MiniTest::Test
+class IOTest < MiniTest::Test
 
   def setup
     message_file = 'test_msg.txt'
-    @msg = Encrypt.new(message_file)
+    @target_file = 'encrypted.txt'
+    @msg = Encrypt.new(message_file, @target_file)
   end
 
 
@@ -15,16 +16,14 @@ class EncryptionTest < MiniTest::Test
   end
 
   def test_that_simple_message_can_be_read
-    assert_equal 'test', @msg.msg_text
+    message_filename = './test/test_msg.txt'
+    assert_equal 'test', @msg.get_file(message_filename)
   end
 
   def test_that_different_message_can_be_read
-    @msg2 = Encrypt.new('test_msg2.txt')
-    msg_text = 'This is the 2nd msg.'
-    assert_equal msg_text, @msg2.msg_text
-  end
-
-  def test_for_newlines_after_every_word
-    skip
+    message_filename = 'test_msg2.txt'
+      @msg2 = Encrypt.new(message_filename, @target_file)
+    msg_text = 'this is the 2nd msg.'
+    assert_equal msg_text, @msg2.get_file(message_filename)
   end
 end

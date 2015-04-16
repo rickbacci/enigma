@@ -73,8 +73,11 @@ class Encrypt
 
 end
 
-message = Encrypt.new(ARGV[0], ARGV[1])
-message.encrypt
+if __FILE__ == $0
+  message = Encrypt.new(ARGV[0], ARGV[1])
+  message.encrypt
+end
+
 
 
 

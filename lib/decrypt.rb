@@ -65,8 +65,9 @@ require './lib/rotator'
     end
   end
 
-msg = Decrypt.new(ARGV[0], ARGV[1], ARGV[2], ARGV[3])
-
-msg.decrypt
+if __FILE__ == $0
+  msg = Decrypt.new(ARGV[0], ARGV[1], ARGV[2], ARGV[3])
+  msg.decrypt
+end
 
 
