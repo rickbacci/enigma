@@ -22,11 +22,24 @@ class DecryptTest < MiniTest::Test
     assert_equal [2, 2, 2, 5] , MessageDate.calculate_offset(date)
   end
 
-  # def test_given_the_word_help_returns_bl39
-  #   #'bl39'
-  #   assert_equal 'help', @msg.convert
-  # end
+  def test__can_decrypt_a_word
+    encrypted_text = '07,3qc5'
+    date = '160415'
+    key_rotations =  [56, 66, 64, 48]
+    date_offset =  @msg.date_offset(date)
 
+    total_offset =  @msg.calculate_total_offset(date_offset, key_rotations)
+
+    decrypted_text =  @msg.decrypt_text(encrypted_text, total_offset)
+
+    assert_equal 'help me', decrypted_text
+  end
+
+  def test_full_decryption
+    full_decrypt = Decrypt.new('./test/test_encrypted.txt', './test/test_decrypted.txt', '02424', '160415')
+    full_decrypt.decrypt
+    assert_equal "full msg decryption working", File.read('./test/test_decrypted.txt')
+  end
 end
 
 

@@ -9,7 +9,7 @@ require './lib/rotator'
 
 class Encrypt
 
-  attr_reader :message_filename, :encrypted_filename
+  attr_reader :message_filename, :encrypted_filename, :date, :encryption_key
 
   def initialize(message_filename, encrypted_filename)
     @message_filename = message_filename || 'message.txt'

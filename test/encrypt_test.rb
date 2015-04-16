@@ -17,4 +17,17 @@ class EncryptTest < MiniTest::Test
     test_date = '140415'
     assert_equal [2, 2, 2, 5], MessageDate.calculate_offset(test_date)
   end
+
+  def test_full_encryption
+
+    full_encrypt = Encrypt.new('./test/test_message.txt', './test/test_encrypted.txt')
+    full_encrypt.encrypt
+    key = full_encrypt.encryption_key
+    date = full_encrypt.date
+
+    full_decrypt = Decrypt.new('./test/test_encrypted.txt', './test/test_decrypted.txt', key, date)
+    full_decrypt.decrypt
+
+    assert_equal 'full msg encryption working', File.read('./test/test_message.txt')
+  end
 end
