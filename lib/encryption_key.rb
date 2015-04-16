@@ -15,7 +15,4 @@ class EncryptionKey
 end
 
 
-# if __FILE__ == $0
-#   p  key = EncryptionKey.generate_key
-#   p  EncryptionKey.calculate_rotations(key)
-# end
+

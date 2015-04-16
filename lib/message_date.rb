@@ -13,8 +13,3 @@ class MessageDate
 
 end
 
-
-if __FILE__ == $0
-p  MessageDate.generate_date
-p  MessageDate.calculate_offset(MessageDate.generate_date)
-end
