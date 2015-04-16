@@ -9,6 +9,10 @@ class Reader
     contents = file.read
     file.rewind
     file.close
-    return contents
+    return format_contents(contents)
+  end
+
+  def self.format_contents(message)
+    message.gsub("\n", '').downcase
   end
 end
