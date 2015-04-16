@@ -19,22 +19,28 @@ class Encrypt
   def convert
 
     @encryption_key = EncryptionKey.generate_key
-    key_rotations = EncryptionKey.calculate_rotations(@encryption_key)
-
     @date = MessageDate.generate_date
 
-    date_offset = MessageDate.calculate_offset(@date)
-
-    rotate = Rotator.new
-
     message_text = Reader.read_file(message_filename)
-    message_text = rotate.format_message(message_text)
+
+    key_rotations = key_rotations(@encryption_key)
+    date_offset = date_offset(@date)
 
     total_offset = Offset.total_offset(date_offset, key_rotations)
+
+    rotate = Rotator.new
 
     encrypted_text = rotate.rotate(:encrypt, message_text, total_offset)
 
     Writer.check_file(encrypted_text, encrypted_filename)
+  end
+
+  def key_rotations(encryption_key)
+    EncryptionKey.calculate_rotations(encryption_key)
+  end
+
+  def date_offset(date)
+    MessageDate.calculate_offset(date)
   end
 
   def result

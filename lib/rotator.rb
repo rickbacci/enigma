@@ -6,10 +6,6 @@ class Rotator
     @character_map = [*('a'..'z'), *('0'..'9'), ' ', '.', ',']
   end
 
-  def format_message(message)
-    message.gsub("\n", '').downcase
-  end
-
   def rotate(type, message, total_offset)
     if type == :encrypt
       return forward(message, total_offset)
