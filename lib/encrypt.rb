@@ -1,71 +1,52 @@
+require 'pry'
+
 require './lib/offset'
 require './lib/reader'
-require './lib/writer'
+require './lib/writer'    ################# does not work!!!!!
 require './lib/encryption_key'
 require './lib/message_date'
 require './lib/rotator'
 
 class Encrypt
+  attr_reader :message_filename, :encrypted_filename
 
-  attr_reader :message_file, :encrypted_file
-
-  def initialize(message_file, encrypted_file)
-   @message_file = message_file || 'message.txt'
-   @encrypted_file = encrypted_file || 'encrypted.txt'
+  def initialize(message_filename, encrypted_filename)
+   @message_filename = message_filename# || 'message.txt'
+   @encrypted_filename = encrypted_filename# || 'encrypted.txt'
   end
 
+  def convert
 
+    @encryption_key = EncryptionKey.generate_key
+    key_rotations = EncryptionKey.calculate_rotations(@encryption_key)
+
+    @date = MessageDate.generate_date
+
+    date_offset = MessageDate.calculate_offset(@date)
+
+    message_text = Reader.read_file(message_filename)
+
+    total_offset = Offset.total_offset(date_offset, key_rotations)
+
+    rotate = Rotator.new
+
+    message_text = rotate.format_message(message_text)
+
+    encrypted_text = rotate.rotate(:encrypt, message_text, total_offset)
+
+    Writer.check_file(encrypted_text, encrypted_filename)
+  end
 
   def result
-    puts "Created #{@encrypted_file} with the key #{@encryption_key} and the date #{@date}"
+    puts "Created #{@encrypted_filename} with the key #{@encryption_key} and the date #{@date}"
   end
-
 
 end
 
-
-
-
-# the encrypt class will receive an msg and call the date class to get the date string and offset.
-# the cncrypt class will generate a key with an offset.
-
-#Created 'encrypted.txt' with the key 82648 and date 030415
-
-
-# Encryptor receives the names of 2 text files...first is the msg...2nd is the file to be written
 message = Encrypt.new(ARGV[0], ARGV[1])
+message.convert
+message.result
 
-p 'this is the message file name'
-p message_file = message.message_file
-puts
-p 'this is the encrypted file name'
-p encrypted_filename = message.encrypted_file
-
-p 'this is the key and key rotation'
-p key = EncryptionKey.generate_key
-p key_rotations = EncryptionKey.calculate_rotations
-puts
-
-p 'this is the date and date offset'
-p date = MessageDate.generate_date
-p date_offset = MessageDate.calculate_offset(date)
-puts
-
-p 'this is the text in the message.txt file'
-p message_text = Reader.read_file(message_file)
-puts
-
-p 'total offset'
-total_offset = Offset.total_offset(MessageDate.calculate_offset(date), EncryptionKey.calculate_rotations)
-puts
-
-
-rotate = Rotator.new
-puts message_text = rotate.format_message(message_text)
-encrypted_text = rotate.rotate(message_text, total_offset)
-
-
-Writer.write_file(encrypted_text, encrypted_filename)
 
 
 

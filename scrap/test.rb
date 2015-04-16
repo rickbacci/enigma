@@ -2,7 +2,7 @@
 character_map = [*('a'..'z'), *('0'..'9'), ' ', '.', ',']
 
 
-message = 'help vannesa '
+message = 'help'
 
 # for each character in message
 #   figure out which rotation we're curerntly on
@@ -11,10 +11,19 @@ message = 'help vannesa '
 
 rotations = [1, 1, 1, 1]
 
-t =  message.chars.map.with_index do |char, index|
+message =  message.chars.map.with_index do |char, index|
   current_rotation = index % 4
   char_index = character_map.index(char)
   character_map[(rotations[current_rotation] + char_index) % character_map.length]
 end.join
 
-p t
+p message
+
+
+message =  message.chars.map.with_index do |char, index|
+  current_rotation = index % 4
+  char_index = character_map.index(char)
+  character_map[char_index - (rotations[current_rotation]) % character_map.length]
+end.join
+
+p message
