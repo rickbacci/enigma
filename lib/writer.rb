@@ -3,7 +3,6 @@ class Writer
   def self.check_file(encrypted_text, encrypted_filename)
 
     #encrypted_filename ||= 'encrypted.txt'
-
     if File.exist?(encrypted_filename)
       warning(encrypted_filename)
 

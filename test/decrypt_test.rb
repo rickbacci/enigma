@@ -2,7 +2,6 @@ require './test/test_helper'
 
 
 
-
 class DecryptTest < MiniTest::Test
 
   def setup
@@ -23,11 +22,10 @@ class DecryptTest < MiniTest::Test
     assert_equal [2, 2, 2, 5] , MessageDate.calculate_offset(date)
   end
 
-  def test_given_the_word_help_returns_bl39
-    #'bl39'
-    assert_equal 'help', @msg.convert
-
-  end
+  # def test_given_the_word_help_returns_bl39
+  #   #'bl39'
+  #   assert_equal 'help', @msg.convert
+  # end
 
 end
 
