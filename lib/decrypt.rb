@@ -20,24 +20,44 @@ require './lib/rotator'
 
     end
 
-    def convert
+    def decrypt
 
-      key_rotations = EncryptionKey.calculate_rotations(key)
-      date_offset = MessageDate.calculate_offset(date)
+      key_rotations = key_rotations(key)
+      date_offset = date_offset(date)
 
-      total_offset = Offset.total_offset(date_offset, key_rotations)
+      total_offset = calculate_total_offset(date_offset, key_rotations)
 
 
       encrypted_text = get_file(encrypted_filename)
 
-      decrypted_text = Rotator.decrypt(encrypted_text, total_offset)
+      decrypted_text = decrypt_text(encrypted_text, total_offset)
 
-      Writer.check_file(decrypted_text, decrypted_filename)
-
+      write_file(decrypted_text, decrypted_filename)
+      result
     end
 
     def get_file(encrypted_filename)
       Reader.read_file(encrypted_filename)
+    end
+
+    def key_rotations(key)
+      EncryptionKey.calculate_rotations(key)
+    end
+
+    def date_offset(date)
+      MessageDate.calculate_offset(date)
+    end
+
+    def calculate_total_offset(date_offset, key_rotations)
+      Offset.total_offset(date_offset, key_rotations)
+    end
+
+    def decrypt_text(encrypted_text, total_offset)
+      Rotator.decrypt(encrypted_text, total_offset)
+    end
+
+    def write_file(decrypted_text, decrypted_filename)
+      Writer.check_file(decrypted_text, decrypted_filename)
     end
 
     def result
@@ -47,6 +67,6 @@ require './lib/rotator'
 
 msg = Decrypt.new(ARGV[0], ARGV[1], ARGV[2], ARGV[3])
 
-msg.convert
-msg.result
+msg.decrypt
+
 

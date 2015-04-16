@@ -25,7 +25,7 @@ class Encrypt
     key_rotations  = key_rotations(@encryption_key)
     date_offset    = date_offset(@date)
 
-    total_offset   = total_offset(date_offset, key_rotations)
+    total_offset   = calculate_total_offset(date_offset, key_rotations)
 
     encrypted_text = encrypt_text(message_text, total_offset)
 
@@ -58,7 +58,7 @@ class Encrypt
     Rotator.encrypt(message_text, total_offset)
   end
 
-  def total_offset(date_offset, key_rotations)
+  def calculate_total_offset(date_offset, key_rotations)
     Offset.total_offset(date_offset, key_rotations)
   end
 
