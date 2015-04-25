@@ -2,15 +2,15 @@ class Writer
 
   def self.check_file(encrypted_text, encrypted_filename)
 
-    if File.exist?(encrypted_filename)
-      warning(encrypted_filename)
-
-      input = $stdin.gets.chomp
-
-      write_file(encrypted_filename, encrypted_text) if input == 'yes'
-    else
-      write_file(encrypted_filename, encrypted_text)
-    end
+    # if File.exist?(encrypted_filename)
+    #   warning(encrypted_filename)
+    #
+    #   input = $stdin.gets.chomp
+    #
+    #   write_file(encrypted_filename, encrypted_text) if input == 'yes'
+    # else
+    #   write_file(encrypted_filename, encrypted_text)
+    # end
   end
 
   def self.write_file(encrypted_filename, encrypted_text)

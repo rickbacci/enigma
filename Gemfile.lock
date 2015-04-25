@@ -5,6 +5,8 @@ GEM
       columnize (= 0.9.0)
     coderay (1.1.0)
     columnize (0.9.0)
+    docile (1.1.5)
+    json (1.8.2)
     method_source (0.8.2)
     minitest (5.5.1)
     pry (0.10.1)
@@ -15,6 +17,11 @@ GEM
       byebug (~> 4.0)
       pry (~> 0.10)
     rake (10.4.2)
+    simplecov (0.10.0)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     slop (3.6.0)
 
 PLATFORMS
@@ -22,5 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   minitest
+  pry
   pry-byebug
   rake
+  simplecov

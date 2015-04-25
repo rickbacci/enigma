@@ -5,7 +5,7 @@ require './test/test_helper'
 class DecryptTest < MiniTest::Test
 
   def setup
-    @msg = Decrypt.new('./test/decrypt/test_msg.txt', './test/decrypt/decrypted.txt', '11111', '150415')
+    @msg = Decrypt.new('./test/decrypt/test_msg.txt', './test/decrypt/encrypted.txt', '11111', '150415')
   end
 
   def test_can_create_dycrypt_class
@@ -36,13 +36,14 @@ class DecryptTest < MiniTest::Test
   end
 
   def test_full_decryption
+    skip
     full_encrypt = Encrypt.new('./test/decrypt/test_message.txt', './test/decrypt/test_encrypted.txt')
     full_encrypt.encrypt
     key = full_encrypt.encryption_key
     date = full_encrypt.date
     full_decrypt = Decrypt.new('./test/decrypt/test_encrypted.txt', './test/decrypt/test_decrypted.txt', key, date)
     full_decrypt.decrypt
-    assert_equal "full msg decryption working", File.read('./test/test_decrypted.txt')
+    assert_equal "full msg decryption working", File.read('./test/decrypt/test_decrypted.txt')
   end
 end
 

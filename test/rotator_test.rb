@@ -1,6 +1,5 @@
-require "minitest"
-require "minitest/autorun"
-require './lib/rotator'
+require "./test/test_helper"
+
 
 class RotatorTest < MiniTest::Test
 

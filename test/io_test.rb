@@ -1,6 +1,4 @@
-require "minitest"
-require "minitest/autorun"
-require './lib/encrypt'
+require "./test/test_helper"
 
 class IOTest < MiniTest::Test
 
@@ -16,7 +14,7 @@ class IOTest < MiniTest::Test
   end
 
   def test_that_simple_message_can_be_read
-    message_filename = './test/test_msg.txt'
+    message_filename = './test/encrypt/test_msg.txt'
     assert_equal 'test', @msg.get_file(message_filename)
   end
 

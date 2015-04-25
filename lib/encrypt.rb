@@ -20,7 +20,7 @@ class Encrypt
   end
 
   def encrypt
-    message_text   = get_file(message_filename)
+   # message_text   = get_file(message_filename)
 
     key_rotations  = key_rotations(@encryption_key)
     date_offset    = date_offset(@date)
@@ -29,9 +29,7 @@ class Encrypt
 
     encrypted_text = encrypt_text(message_text, total_offset)
 
-    write_file(encrypted_text, encrypted_filename)
 
-    result
   end
 
   def generate_key
@@ -63,7 +61,7 @@ class Encrypt
   end
 
   def write_file(encrypted_text, encrypted_filename)
-    Writer.check_file(encrypted_text, encrypted_filename)
+   # Writer.check_file(encrypted_text, encrypted_filename)
   end
 
   def result
@@ -74,8 +72,15 @@ class Encrypt
 end
 
 if __FILE__ == $0
-  message = Encrypt.new(ARGV[0], ARGV[1])
-  message.encrypt
+  input_file = ARGV[0]
+  output_file = ARGV[1]
+
+  #message = Encrypt.new(input_file, output_file)
+  #message.encrypt
+
+ # Writer.write_file(encrypted_text, encrypted_filename)
+
+  #result
 end
 
 

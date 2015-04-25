@@ -14,7 +14,7 @@ require './lib/rotator'
     def initialize(encrypted_filename, decrypted_filename, key, date)
 
       @encrypted_filename = encrypted_filename || 'encrypted.txt'
-      @decrypted_filename = decrypted_filename || 'decrypted.txt'
+      @decrypted_filename = decrypted_filename || 'encrypted.txt'
       @key = key
       @date = date
 
