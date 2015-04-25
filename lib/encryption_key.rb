@@ -2,9 +2,9 @@
 class EncryptionKey
 
   def self.generate_key
-    @key = ''
-    5.times { @key << rand(9).to_s }
-    return @key
+    key = ''
+    5.times { key << rand(9).to_s }
+    return key
   end
 
   def self.calculate_rotations(key)

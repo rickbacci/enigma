@@ -4,7 +4,7 @@ require './test/test_helper'
 class EncryptTest < MiniTest::Test
 
   def setup
-    @msg = Encrypt.new('./test/encrypt/test_msg.txt', './test/encrypt/encrypted.txt')
+    @msg = Encrypt.new#('./test/encrypt/test_msg.txt', './test/encrypt/encrypted.txt')
   end
 
 
@@ -20,13 +20,17 @@ class EncryptTest < MiniTest::Test
 
   def test_full_encryption
 
-    full_encrypt = Encrypt.new('./test/encrypt/test_message.txt', './test/encrypt/test_encrypted.txt')
-    full_encrypt.encrypt
+    full_encrypt = Encrypt.new       #('./test/encrypt/test_message.txt', './test/encrypt/test_encrypted.txt')
+    input_file = './test/encrypt/test_message.txt'
+    #output_file = './test/encrypt/test_encrypted.txt'
+    message_text = Reader.read_file(input_file)
+
+    full_encrypt.encrypt(message_text)
     key = full_encrypt.encryption_key
     date = full_encrypt.date
 
-    full_decrypt = Decrypt.new('./test/encrypt/test_encrypted.txt', './test/encrypt/test_decrypted.txt', key, date)
-    full_decrypt.decrypt
+    full_decrypt = Decrypt.new(key, date)
+    full_decrypt.decrypt(message_text)
 
     assert_equal "full msg encryption working", File.read('./test/encrypt/test_message.txt').chomp
   end

@@ -9,27 +9,20 @@ require './lib/rotator'
 
 class Encrypt
 
-  attr_reader :message_filename, :encrypted_filename, :date, :encryption_key
+  attr_reader :date, :encryption_key
 
-  def initialize(message_filename, encrypted_filename)
-    @message_filename = message_filename || 'message.txt'
-    @encrypted_filename = encrypted_filename || 'encrypted.txt'
-
-    @encryption_key = generate_key
-    @date = generate_date
+  def initialize
+    @date ||= generate_date
+    @encryption_key ||= generate_key
   end
 
-  def encrypt
-   # message_text   = get_file(message_filename)
-
-    key_rotations  = key_rotations(@encryption_key)
-    date_offset    = date_offset(@date)
+  def encrypt(message_text)
+    key_rotations  = key_rotations(encryption_key)
+    date_offset    = date_offset(date)
 
     total_offset   = calculate_total_offset(date_offset, key_rotations)
 
-    encrypted_text = encrypt_text(message_text, total_offset)
-
-
+    encrypt_text(message_text, total_offset)
   end
 
   def generate_key
@@ -38,10 +31,6 @@ class Encrypt
 
   def generate_date
     MessageDate.generate_date
-  end
-
-  def get_file(message_filename)
-    Reader.read_file(message_filename)
   end
 
   def key_rotations(encryption_key)
@@ -60,27 +49,25 @@ class Encrypt
     Offset.total_offset(date_offset, key_rotations)
   end
 
-  def write_file(encrypted_text, encrypted_filename)
-   # Writer.check_file(encrypted_text, encrypted_filename)
-  end
-
-  def result
+  def result(output_file)
     puts `clear && printf '\e[3J'` # clear terminal
-    puts "Created #{encrypted_filename} with the key #{@encryption_key} and the date #{@date}"
+    puts "Created #{output_file} with the key #{encryption_key} and the date #{date}"
   end
 
 end
 
 if __FILE__ == $0
-  input_file = ARGV[0]
+  input_file  = ARGV[0]
   output_file = ARGV[1]
 
-  #message = Encrypt.new(input_file, output_file)
-  #message.encrypt
+  message_text = Reader.read_file(input_file)
 
- # Writer.write_file(encrypted_text, encrypted_filename)
+  message = Encrypt.new
 
-  #result
+  encrypted_text = message.encrypt(message_text)
+
+  Writer.write_file(encrypted_text, output_file)
+  message.result(output_file)
 end
 
 
