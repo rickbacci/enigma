@@ -9,7 +9,9 @@ require 'pry'
 
   class Decrypt
     attr_reader :key, :date
-    def initialize(key, date)
+    def initialize(input_file='', output_file='', key, date)
+      @input_file = input_file
+      @output_file = output_file
       @key = key
       @date = date
     end
@@ -36,7 +38,7 @@ require 'pry'
     end
 
     def result(output_file)
-      puts "Created #{output_file} with the key #{key} and the date #{date}"
+      "Created #{output_file} with the key #{key} and the date #{date}"
     end
   end
 
@@ -51,8 +53,8 @@ if __FILE__ == $0
   message = Decrypt.new(key, date)
   decrypted_text = message.decrypt(encrypted_text)
 
-  Writer.write_file(output_file, decrypted_text)
-  message.result(output_file)
+  Writer.check_file(output_file, decrypted_text)
+  puts message.result(output_file)
 end
 
 

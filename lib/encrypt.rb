@@ -12,8 +12,8 @@ class Encrypt
   attr_reader :date, :encryption_key
 
   def initialize
-    @date ||= generate_date
-    @encryption_key ||= generate_key
+    @date = generate_date
+    @encryption_key = generate_key
   end
 
   def encrypt(message_text)
@@ -51,9 +51,8 @@ class Encrypt
 
   def result(output_file)
     puts `clear && printf '\e[3J'` # clear terminal
-    puts "Created #{output_file} with the key #{encryption_key} and the date #{date}"
+    "Created #{output_file} with the key #{encryption_key} and the date #{date}"
   end
-
 end
 
 if __FILE__ == $0
@@ -66,8 +65,8 @@ if __FILE__ == $0
 
   encrypted_text = message.encrypt(message_text)
 
-  Writer.write_file(encrypted_text, output_file)
-  message.result(output_file)
+  Writer.write_file(output_file, encrypted_text)
+  puts message.result(output_file)
 end
 
 

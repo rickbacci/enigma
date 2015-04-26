@@ -19,8 +19,6 @@ class RotatorTest < MiniTest::Test
   end
 
   def test_character_map_does_not_contain_duplicates
-
     assert_equal 39, CHARACTER_MAP.length
   end
-
 end

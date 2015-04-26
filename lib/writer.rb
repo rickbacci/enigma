@@ -1,9 +1,13 @@
 class Writer
 
-  def self.check_file(filename, text)
-    if File.exist?(filename)
-      warning(filename)
-      input = $stdin.gets.chomp
+  def self.check_file(filename, text, test=false)
+    if File.exist?(filename)# && !test
+      warning(filename, test)
+      if test
+        input = 'yes'.chomp
+      else
+        input = $stdin.gets.chomp
+      end
       write_file(filename, text) if input == 'yes'
     else
       write_file(filename, text)
@@ -14,10 +18,11 @@ class Writer
     File.write(filename, text)
   end
 
-  def self.warning(filename)
-    puts `clear && printf '\e[3J'` # clear terminal
-    puts "The file #{filename} already exists on your system! Do you want to overwrite the existing file, or cancel?\n\n"
-    puts "Type: 'yes' to overwrite, or [return] to cancel\n\n"
+  def self.warning(filename, test)
+    unless test
+      puts "\n\nThe file #{filename} already exists on your system! Do you want to overwrite the existing file, or cancel?\n\n"
+      puts "Type: 'yes' to overwrite, or [return] to cancel\n\n"
+    end
   end
 end
 

@@ -9,14 +9,14 @@ class CrackTest < Minitest::Test
   def test_crack_mod_4_equals_0_message
     message = 'oe,,'
 
-    assert_equal [1, 1, 1, 1], @crack.crack_message(message)
+    assert_equal [1, 1, 1, 1], @crack.crack_total_offset(message)
   end
 
   def test_crack_mod_4_equals_1_message
     message = 'oe,,x'
     msg = @crack.send(:target_characters, message)
 
-    chars = @crack.crack_message(msg)
+    chars = @crack.crack_total_offset(msg)
     assert_equal [1, 1, 1, 1], chars
   end
 
@@ -24,7 +24,7 @@ class CrackTest < Minitest::Test
     message = 'oe,,xx'
     msg = @crack.send(:target_characters, message)
 
-    chars = @crack.crack_message(msg)
+    chars = @crack.crack_total_offset(msg)
     assert_equal [1, 1, 1, 1], chars
   end
 
@@ -32,7 +32,7 @@ class CrackTest < Minitest::Test
     message = 'oe,,xxx'
     msg = @crack.send(:target_characters, message)
 
-    chars = @crack.crack_message(msg)
+    chars = @crack.crack_total_offset(msg)
     assert_equal [1, 1, 1, 1], chars
   end
 
@@ -40,7 +40,7 @@ class CrackTest < Minitest::Test
     message = "apyrhi6nb3koli4o8v.e3tkn66rd646kf06k9i6u3xnq ind82nidinr,z4omszdmsnz3o1kli0umi7y ioxn4rd.z4i jkz 36ogrkomi0upjlkgole"
     msg = @crack.send(:target_characters, message)
 
-    chars = @crack.crack_message(msg)
+    chars = @crack.crack_total_offset(msg)
 
     assert_equal [32, 11, 13, 6], chars
   end

@@ -4,9 +4,8 @@ require './test/test_helper'
 class EncryptTest < MiniTest::Test
 
   def setup
-    @msg = Encrypt.new#('./test/encrypt/test_msg.txt', './test/encrypt/encrypted.txt')
+    @msg = Encrypt.new
   end
-
 
   def test_encryption_key_is_created_and_within_range
     key = EncryptionKey.generate_key
@@ -20,18 +19,21 @@ class EncryptTest < MiniTest::Test
 
   def test_full_encryption
 
-    full_encrypt = Encrypt.new       #('./test/encrypt/test_message.txt', './test/encrypt/test_encrypted.txt')
+    full_encrypt = Encrypt.new
     input_file = './test/encrypt/test_message.txt'
-    #output_file = './test/encrypt/test_encrypted.txt'
+    output_file = './test/encrypt/test_decrypted.txt'
     message_text = Reader.read_file(input_file)
 
-    full_encrypt.encrypt(message_text)
-    key = full_encrypt.encryption_key
+    encryption_key = full_encrypt.encryption_key
     date = full_encrypt.date
+    encrypted_text = full_encrypt.encrypt(message_text)
 
-    full_decrypt = Decrypt.new(key, date)
-    full_decrypt.decrypt(message_text)
+    output = "Created #{output_file} with the key #{encryption_key} and the date #{date}"
 
-    assert_equal "full msg encryption working", File.read('./test/encrypt/test_message.txt').chomp
+    full_decrypt = Decrypt.new(encryption_key, date)
+    decrypted_text = full_decrypt.decrypt(encrypted_text)
+
+    assert_equal "full msg encryption working", decrypted_text
+    assert_equal output, full_encrypt.result(output_file)
   end
 end

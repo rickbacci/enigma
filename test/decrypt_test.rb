@@ -4,12 +4,6 @@ require './test/test_helper'
 
 class DecryptTest < MiniTest::Test
 
-  def setup
-    #@input_file = './test/decrypt/test_msg.txt'
-    #@output_file = './test/decrypt/encrypted.txt', '11111', '150415'
-    #@msg = Decrypt.new
-  end
-
   def test_can_create_dycrypt_class
     assert Decrypt.new('key', 'date')
   end
@@ -28,18 +22,10 @@ class DecryptTest < MiniTest::Test
     encrypted_text = '07,3qc5'
     key = '56648'
     date = '160415'
-    #key_rotations =  [56, 66, 64, 48]
 
     encrypted_message = Decrypt.new(key , date)
 
     decrypted_text = encrypted_message.decrypt(encrypted_text)
-
-
-    #date_offset =  msg.date_offset(date)
-    #total_offset =  msg.calculate_total_offset(date_offset, key_rotations)
-
-    #decrypted_text =  msg.decrypt_text(encrypted_text, total_offset)
-
     assert_equal 'help me', decrypted_text
   end
 
@@ -51,20 +37,20 @@ class DecryptTest < MiniTest::Test
 
     message_text = Reader.read_file(input_file)
 
-    full_encrypt = Encrypt.new#('./test/decrypt/test_message.txt', './test/decrypt/test_encrypted.txt')
+    full_encrypt = Encrypt.new
     key = full_encrypt.encryption_key
     date = full_encrypt.date
     encrypted_text = full_encrypt.encrypt(message_text)
-    #Writer.write_file(encrypted_text, output_file)
-
-    #binding.pry
-    #encrypted_text = Reader.read_file(output_file)
 
     full_decrypt = Decrypt.new(key, date)
     decrypted_text = full_decrypt.decrypt(encrypted_text)
-    Writer.write_file(output_file, decrypted_text)
+    output = "Created #{output_file} with the key #{key} and the date #{date}"
+
+    Writer.check_file(output_file, decrypted_text, true)
 
     assert_equal message_text, File.read(output_file)
+    assert_equal output, full_decrypt.result(output_file)
+
   end
 end
 
