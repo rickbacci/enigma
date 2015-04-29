@@ -68,10 +68,3 @@ if __FILE__ == $0
   Writer.write_file(output_file, encrypted_text)
   puts message.result(output_file)
 end
-
-
-
-
-
-
-

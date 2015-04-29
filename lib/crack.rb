@@ -14,6 +14,7 @@ class CrackMessage
 
 
   def crack_total_offset(message)
+
     target_characters(message).chars.zip(suspected_characters(message)).map do |char, susp|
       index_difference(char, susp)
     end
